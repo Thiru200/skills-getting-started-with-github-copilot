@@ -33,6 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         activitiesList.appendChild(activityCard);
 
+        // Add delete icon next to each participant
+        const deleteIcon = document.createElement('span');
+        deleteIcon.textContent = '🗑️';
+        deleteIcon.style.cursor = 'pointer';
+        deleteIcon.onclick = () => unregisterParticipant(name, participant);
+        participantItem.appendChild(deleteIcon);
+
+        // Hide bullet points
+        const style = document.createElement('style');
+        style.innerHTML = 'ul { list-style-type: none; padding: 0; }';
+        document.head.appendChild(style);
+
         // Add option to select dropdown
         const option = document.createElement("option");
         option.value = name;
@@ -66,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        // Refresh activities to show the new participant
+        fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
